@@ -7,6 +7,12 @@ const app = express();
 mongoose.connect(url, {useNewUrlParser:true})
 const con = mongoose.connection
 
+con.on('open',() => {
+    console.log('connected..')
+})
+
+app.use(express.json())
+
 const soniRouter = require('./routes/soni.js')
 
 app.use('/soni',soniRouter)
