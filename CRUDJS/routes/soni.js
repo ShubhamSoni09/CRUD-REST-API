@@ -1,47 +1,67 @@
-const express = require('express');
+const express = require('express')
 const router = express.Router()
 const soni = require('../models/soni')
 
-router.get('/', async(req,res)=> {
 
+router.get('/', async(req,res) => {
     try{
-        const sonis = await soni.find
-        res.json(sonis)
+           const soni = await Alien.find()
+           res.json(soni)
+    }catch(err){
+        res.send('Error ' + err)
     }
-    catch(err){
-        res.send('Error'+err)
-    }
-  res.send('Get request')
 })
 
-router.get('/:id', async(req,res)=> {
-
+router.get('/:id', async(req,res) => {
     try{
-        const soni = await soni.find
-        res.json(soni)
+           const alien = await Alien.findById(req.params.id)
+           res.json(alien)
+    }catch(err){
+        res.send('Error ' + err)
     }
-    catch(err){
-        res.send('Error'+err)
-    }
-  res.send('Get request')
 })
 
-router.post('/soni', async(req,res)=> {
-    const soni = new soni({
+
+router.post('/', async(req,res) => {
+    const alien = new Soni({
         name: req.body.name,
         tech: req.body.tech,
-        sub: req.body.sub    
+        sub: req.body.sub
     })
+
     try{
-        const a1 = await soni.save()
+        const a1 =  await soni.save() 
         res.json(a1)
-    }
-    catch{
-        res.send('Error'+err)
+    }catch(err){
+        res.send('Error')
     }
 })
 
+router.patch('/:id',async(req,res)=> {
+    try{
+        const soni = await Soni.findById(req.params.id) 
+        soni.sub = req.body.sub
+        const a1 = await soni.save()
+        res.json(a1)   
+    }catch(err){
+        res.send('Error')
+    }
 
+})
 
+router.delete('/:id',async(req,res)=> {
+    try{
+        const soni = await Soni.findById(req.params.id) 
+        soni.sub = req.body.sub
+        const a1 = await soni.remove()
+        res.json(a1)   
+    }catch(err){
+        res.send('Error')
+    }
+
+})
 
 module.exports = router
+
+
+
